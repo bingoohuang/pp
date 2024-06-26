@@ -138,39 +138,46 @@ func (pp *PrettyPrinter) Fatalln(a ...interface{}) {
 	os.Exit(1)
 }
 
-func (pp *PrettyPrinter) SetOmitEmpty(enabled bool) {
+func (pp *PrettyPrinter) SetOmitEmpty(enabled bool) *PrettyPrinter {
 	pp.omitempty = enabled
+	return pp
 }
 
-func (pp *PrettyPrinter) SetColoringEnabled(enabled bool) {
+func (pp *PrettyPrinter) SetColoringEnabled(enabled bool) *PrettyPrinter {
 	pp.coloringEnabled = enabled
+	return pp
 }
 
-func (pp *PrettyPrinter) SetDecimalUint(enabled bool) {
+func (pp *PrettyPrinter) SetDecimalUint(enabled bool) *PrettyPrinter {
 	pp.decimalUint = enabled
+	return pp
 }
 
-func (pp *PrettyPrinter) SetExportedOnly(enabled bool) {
+func (pp *PrettyPrinter) SetExportedOnly(enabled bool) *PrettyPrinter {
 	pp.exportedOnly = enabled
+	return pp
 }
 
-func (pp *PrettyPrinter) SetIgnoreFields(ignoreFields ...string) {
+func (pp *PrettyPrinter) SetIgnoreFields(ignoreFields ...string) *PrettyPrinter {
 	pp.ignoreFields = make(map[string]bool)
 	for _, ignoreField := range ignoreFields {
 		pp.ignoreFields[ignoreField] = true
 	}
+	return pp
 }
 
-func (pp *PrettyPrinter) SetThousandsSeparator(enabled bool) {
+func (pp *PrettyPrinter) SetThousandsSeparator(enabled bool) *PrettyPrinter {
 	pp.thousandsSeparator = enabled
+	return pp
 }
 
 // SetOutput sets pp's output
-func (pp *PrettyPrinter) SetOutput(o io.Writer) {
+func (pp *PrettyPrinter) SetOutput(o io.Writer) *PrettyPrinter {
 	pp.outLock.Lock()
 	defer pp.outLock.Unlock()
 
 	pp.out = o
+	return pp
 }
 
 // GetOutput returns pp's output.
@@ -179,22 +186,25 @@ func (pp *PrettyPrinter) GetOutput() io.Writer {
 }
 
 // ResetOutput sets pp's output back to the default output
-func (pp *PrettyPrinter) ResetOutput() {
+func (pp *PrettyPrinter) ResetOutput() *PrettyPrinter {
 	pp.outLock.Lock()
 	defer pp.outLock.Unlock()
 
 	pp.out = defaultOut
+	return pp
 }
 
 // SetColorScheme takes a colorscheme used by all future Print calls.
-func (pp *PrettyPrinter) SetColorScheme(scheme ColorScheme) {
+func (pp *PrettyPrinter) SetColorScheme(scheme ColorScheme) *PrettyPrinter {
 	scheme.fixColors()
 	pp.currentScheme = scheme
+	return pp
 }
 
 // ResetColorScheme resets colorscheme to default.
-func (pp *PrettyPrinter) ResetColorScheme() {
+func (pp *PrettyPrinter) ResetColorScheme() *PrettyPrinter {
 	pp.currentScheme = defaultScheme
+	return pp
 }
 
 func (pp *PrettyPrinter) formatAll(objects []interface{}) []interface{} {
@@ -290,8 +300,9 @@ func Fatalln(a ...interface{}) {
 //			pp.SetDefaultOutput(ioutil.Discard)
 //		}
 //	}
-func SetDefaultOutput(o io.Writer) {
+func SetDefaultOutput(o io.Writer) *PrettyPrinter {
 	Default.SetOutput(o)
+	return Default
 }
 
 // GetOutput returns pp's default output.
@@ -300,21 +311,25 @@ func GetDefaultOutput() io.Writer {
 }
 
 // Change Print* functions' output to default one.
-func ResetDefaultOutput() {
+func ResetDefaultOutput() *PrettyPrinter {
 	Default.ResetOutput()
+	return Default
 }
 
 // SetColorScheme takes a colorscheme used by all future Print calls.
-func SetColorScheme(scheme ColorScheme) {
+func SetColorScheme(scheme ColorScheme) *PrettyPrinter {
 	Default.SetColorScheme(scheme)
+	return Default
 }
 
 // ResetColorScheme resets colorscheme to default.
-func ResetColorScheme() {
+func ResetColorScheme() *PrettyPrinter {
 	Default.ResetColorScheme()
+	return Default
 }
 
 // SetMaxDepth sets the printer's Depth, -1 prints all
-func SetDefaultMaxDepth(v int) {
+func SetDefaultMaxDepth(v int) *PrettyPrinter {
 	Default.maxDepth = v
+	return Default
 }
